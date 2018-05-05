@@ -27,8 +27,20 @@ app.post('/result', function(request, response){
     console.log('you tried to submit something!');
     console.log(request.body);
 
-    request.session.name = request.body.name;
-    response.render('/result', {name: request.session.name});
+    request.session.name = request.body.name
+    request.session.comment = request.body.comment
+
+    response.redirect('/page');
+});
+
+app.get('/page', function(request, response){
+    console.log('you hit the page route! WOO!');
+    // look up user obj by user id in session.userid
+    var info = {
+        name: request.session.name,
+        comment: request.session.comment
+    }
+    response.render('result', {results: info});
 });
 
 app.listen(8900, function(errs){
